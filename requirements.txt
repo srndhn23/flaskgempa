@@ -4,6 +4,7 @@ pandas
 scikit-learn
 statsmodels
 prophet
-mysql
 mysql-connector
 mysql-connector-python
+wheel
+mysqlclient
