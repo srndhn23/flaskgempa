@@ -1,4 +1,5 @@
-from flask import Flask, request, render_template, jsonify, Response
+import os
+from flask import Flask, request, render_template, Response
 import numpy as np
 import pandas as pd
 from prophet import Prophet
