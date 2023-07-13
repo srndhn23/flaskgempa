@@ -8,3 +8,4 @@ mysql
 mysql-connector
 mysql-connector-python
 wheel
+mysqlclient
