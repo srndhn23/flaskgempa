@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sistem Informasi Gempa Bumi Indonesia</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/img/waves.png" rel="icon">
+  <link href="static/img/waves.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/css/main.css" rel="stylesheet">
+
+</head>
+<style>
+  #name {
+    position: absolute;
+    background-color: white;
+    width: fit-content;
+    opacity: 0;
+    border-radius: 5px;
+    border: 3px solid;
+    padding: 5px;
+    font-size: 1.5rem;
+  }
+
+  svg path {
+    cursor: pointer;
+    fill: #Fdffff;
+    stroke: black;
+    stroke-width: 0.5px;
+    transition: fill 0.1s;
+  }
+
+  svg path:hover {
+    fill: #1c88ba;
+  }
+
+  .row select {
+    margin-bottom: 10px;
+  }
+
+  .map-wrapper {
+    padding-top: 20px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .maplabel {
+    color: #Fdffff;
+    padding-bottom: 20px;
+  }
+</style>
+
+<body class="page-index">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="static/img/logo.png" alt=""> -->
+        <h1 class="d-flex align-items-center">Sistem Informasi Gempa Bumi Indonesia</h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href=" {{ url_for('index') }} ">Home</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('penanggulangan') }} ">Penanggulangan Gempa Bumi</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('about') }} ">About</a></li>
+        </ul>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <!-- Created for MapSVG plugin: http://mapsvg.com -->
+      <div class="map-wrapper" style="padding-left: 13%;">
+
+        {% include 'component/map.html' %}
+
+        <label class="maplabel"> Klik provinsi pada peta untuk menampilkan data terjadinya gempa bumi
+          di provinsi tersebut. Klik tombol di bawah ini untuk memprediksikan magnitudo gempa.</label>
+        <a href="#main" class="btn-get-started">Prediksikan Magnitudo Gempa</a>
+      </div>
+    </div>
+  </section><!-- End Hero Section -->
+
+  <main id="main">
+    <!-- ======= Our Services Section ======= -->
+    <section id="services-list" class="services-list">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Prediksikan Magnitudo Gempa Bumi</h2>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <form action="/predict" method="post" class="form">
+              <div class="form-group mb-4">
+                <label for="province">Nama Provinsi:</label>
+                <select id="province" name="province" class="form-control" required>
+                  <option value="" disabled selected>Pilih Provinsi</option>
+                  <option value='Aceh'> Aceh</option>
+                  <option value='Sumatra Utara'> Sumatra Utara</option>
+                  <option value='Sumatra Barat'> Sumatra Barat</option>
+                  <option value='Riau'> Riau</option>
+                  <option value='Kepulauan Riau'> Kepulauan Riau</option>
+                  <option value='Jambi'> Jambi</option>
+                  <option value='Sumatra Selatan'> Sumatra Selatan</option>
+                  <option value='Bangka Belitung'> Bangka Belitung</option>
+                  <option value='Bengkulu'> Bengkulu</option>
+                  <option value='Lampung'> Lampung</option>
+                  <option value='Banten'> Banten</option>
+                  <option value='DKI Jakarta'> DKI Jakarta</option>
+                  <option value='Jawa Barat'> Jawa Barat</option>
+                  <option value='Jawa Tengah'> Jawa Tengah</option>
+                  <option value='Yogyakarta'> Yogyakarta</option>
+                  <option value='Jawa Timur'> Jawa Timur</option>
+                  <option value='Bali'> Bali</option>
+                  <option value='Nusa Tenggara Barat'> Nusa Tenggara Barat</option>
+                  <option value='Nusa Tenggara Timur'> Nusa Tenggara Timur</option>
+                  <option value='Kalimantan Barat'> Kalimantan Barat</option>
+                  <option value='Kalimantan Tengah'> Kalimantan Tengah</option>
+                  <option value='Kalimantan Selatan'> Kalimantan Selatan</option>
+                  <option value='Kalimantan Timur'> Kalimantan Timur</option>
+                  <option value='Kalimantan Utara'> Kalimantan Utara</option>
+                  <option value='Sulawesi Utara'> Sulawesi Utara</option>
+                  <option value='Sulawesi Tengah'> Sulawesi Tengah</option>
+                  <option value='Sulawesi Barat'> Sulawesi Barat</option>
+                  <option value='Sulawesi Selatan'> Sulawesi Selatan</option>
+                  <option value='Sulawesi Tenggara'> Sulawesi Tenggara</option>
+                  <option value='Gorontalo'> Gorontalo</option>
+                  <option value='Maluku'> Maluku</option>
+                  <option value='Maluku Utara'> Maluku Utara</option>
+                  <option value='Papua Barat'> Papua Barat</option>
+                  <option value='Papua'> Papua</option>
+                </select>
+              </div>
+              <div class="form-group mb-4">
+                <label for="start_date">Tanggal Mulai:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control" required>
+              </div>
+              <div class="form-group mb-4">
+                <label for="end_date">Tanggal Akhir:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div class="col">
+            <div class="container">
+              {% if forecast_data is defined and not forecast_data.empty %}
+                <h5 class="text-center mt-4">Hasil Prediksi di Provinsi {{ province }}</h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Prediksi Magnitudo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for index, row in forecast_data.iterrows() %}
+                      <tr>
+                        <td>{{ row['ds'].date() }}</td>
+                        <td>{{ row['Forecast'] }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="mt-4" style="text-align: center; font-size: 20px;">Tidak ada data prediksi yang terekam</p>
+                <img style="padding-left: 10%;" src="../static/Time_Two Color.svg" alt="">
+              {% endif %}
+            </div>
+          </div>                              
+        </div>       
+
+    </section>
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="footer-content">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+              <span>Sistem Informasi Gempa Bumi</span>
+            </a>
+            <p>Wadah informasi gempa bumi Indonesia terdahulu sebagai wawasan masyarakat</p>
+            <div class="social-links d-flex  mt-3">
+              <a href="https://instagram.com/srndhn23_?igshid=YmMyMTA2M2Y=" class="instagram"><i
+                  class="bi bi-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/susi-nurindahsari-7303261b4" class="linkedin"><i
+                  class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6 footer-links">
+            <h4>More Information</h4>
+            <ul>
+              <li><i class="bi bi-dash"></i> <a href="https://earthquake.usgs.gov/earthquakes/search/">Data Gempa Bumi
+                  USGS</a></li>
+              <li><i class="bi bi-dash"></i> <a href="https://data.bmkg.go.id/gempabumi/">Data Gempa Bumi BMKG</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contact Us</h4>
+            <p>
+              Jl. Mataram No.9, Pesurungan Lor<br>
+              Kec. Margadana, Kota Tegal<br>
+              Jawa Tengah 52147 <br>
+              <strong>Email:</strong> sarindahsn23@gmail.com<br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>SIGEMBI</span></strong>. All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/vendor/aos/aos.js"></script>
+  <script src="static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"></script>
+  <script src="/static/js/graphs.js"></script>
+
+  <!-- JQuery for AJAX -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // Get a reference to the SVG element
+      const svg = document.getElementById('map');
+
+      // When a province is clicked on the map, redirect to the histori page for that province
+      $("path").click(function () {
+        var province = $(this).attr('id');
+        window.location.href = "/histori/" + province + "/log_magnitudes";
+      });
+
+      // Extract the province name from the URL
+      var url = window.location.pathname;
+      var province = url.substring(url.lastIndexOf('/') + 1);
+      console.log(province); // Add this line to log the province name
+
+      // Load the corresponding province image
+      var img = new Image();
+      img.src = "static/maps/" + province + ".jpg";
+      img.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+        document.getElementById('map-image').src = canvas.toDataURL();
+      };
+
+      // Make an AJAX request to the FastAPI endpoint to get the data
+      $.ajax({
+        url: "/histori/" + province + "/log_magnitudes",
+        type: "GET",
+        success: function (result) {
+          console.log(result); // Add this line to log the result
+
+          // Update the table with the data
+          var tableData = result.data;
+          var rows = "";
+          for (var i = 0; i < tableData.length; i++) {
+            var row = "<tr>";
+            for (var j = 0; j < tableData[i].length; j++) {
+              row += "<td>" + tableData[i][j] + "</td>";
+            }
+            row += "</tr>";
+            rows += row;
+          }
+          $("#table-container tbody").html(rows);
+        },
+        error: function () {
+          console.log("Error retrieving data.");
+        }
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

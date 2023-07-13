@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sistem Informasi Gempa Bumi Indonesia</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/img/waves.png" rel="icon">
+  <link href="/static/img/waves.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="/static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="/static/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/css/main.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+  <style>
+    .maplabel {
+      color: #Fdffff;
+      margin-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .h5 {
+      color: #Fdffff;
+    }
+
+    .table {
+      color: #Fdffff;
+      margin-top: 20px;
+    }
+
+    #map-image {
+      width: 700;
+      height: 500;
+    }
+
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      margin-bottom: 30px;
+    }
+
+    .datalabel {
+      text-align: center;
+      color: #Fdffff;
+    }
+  </style>
+</head>
+
+<body class="page-index">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="/static/img/logo.png" alt=""> -->
+        <h1 class="d-flex align-items-center">Sistem Informasi Gempa Bumi Indonesia</h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href=" {{ url_for('index') }} ">Home</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('penanggulangan') }} ">Penanggulangan Gempa Bumi</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('about') }} ">About</a></li>
+        </ul>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- The map image -->
+          <img id="map-image" src="{{ url_for('static', filename='maps/' + province + '.jpg') }}" alt="{{ province }} map" class="center">
+        </div>
+        <div class="col-md-6">
+          <!-- The graphic -->
+          <div>
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="container">
+          {% if data %}
+            <h5 style="text-align: center; color: #Fdffff;">Data Histori Gempa Bumi di Provinsi {{ province_name }}</h5>
+            <table class="table table-bordered" id="table-container">
+              <thead>
+                <tr>
+                  <th class="text-center">Tanggal</th>
+                  <th class="text-center">Latitude</th>
+                  <th class="text-center">Longitude</th>
+                  <th class="text-center">Kedalaman (KM)</th>
+                  <th class="text-center">Magnitudo (Mw)</th>
+                  <th class="text-center">Lokasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in data %}
+                  <tr>
+                    <td id="date">{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="datalabel" style="font-size: 18px;">Sorry, the data is unavailable.</p>
+            <img style="padding-left: 10%;" src="../static/Beach_Two Color.svg" alt="">
+          {% endif %}
+        </div>
+      </div>    
+
+      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Ramalkan Magnitudo Gempa</a>
+        untuk meramalkan gempa di waktu mendatang.</label>
+    </div>
+  </section><!-- End Hero Section -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+              <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+                <span>Sistem Informasi Gempa Bumi</span>
+              </a>
+              <p>Wadah informasi gempa bumi Indonesia terdahulu sebagai wawasan masyarakat</p>
+            <div class="social-links d-flex  mt-3">
+              <a href="https://instagram.com/srndhn23_?igshid=YmMyMTA2M2Y=" class="instagram"><i
+                  class="bi bi-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/susi-nurindahsari-7303261b4" class="linkedin"><i
+                  class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-6 footer-links">
+            <h4>More Information</h4>
+            <ul>
+              <li><i class="bi bi-dash"></i> <a href="https://earthquake.usgs.gov/earthquakes/search/">Data Gempa Bumi
+                  USGS</a></li>
+              <li><i class="bi bi-dash"></i> <a href="https://data.bmkg.go.id/gempabumi/">Data Gempa Bumi BMKG</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contact Us</h4>
+            <p>
+              Jl. Mataram No.9, Pesurungan Lor<br>
+              Kec. Margadana, Kota Tegal<br>
+              Jawa Tengah 52147 <br>
+              <strong>Email:</strong> sarindahsn23@gmail.com<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>SIGEMBI</span></strong>. All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/aos/aos.js"></script>
+  <script src="/static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('myChart');
+    var id = document.getElementById('date').value;
+    new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Grafik Magnitudo vs Kedalaman',
+          data: [
+          {% for row in data %}
+          { x: {{ row[3] }}, y: {{ row[4] }} },
+          {% endfor %}
+          ],
+          borderColor: 'white',
+          backgroundColor: 'rgba(255, 255, 255, 0.6)'
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            scaleLabel: {
+              display: true,
+              labelString: 'Kedalaman (km)',
+              color: 'white'
+            },
+            ticks: {
+              color: 'white',
+              beginAtZero: true
+            }
+          },
+          y: {
+            scaleLabel: {
+              display: true,
+              labelString: 'Magnitudo',
+              color: 'white'
+            },
+            ticks: {
+              color: 'white',
+              beginAtZero: true
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                var label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.x !== null) {
+                  label += 'Kedalaman ' + context.parsed.x.toFixed(2) + ' km, ';
+                }
+                if (context.parsed.y !== null) {
+                  label += 'Magnitudo ' + context.parsed.y.toFixed(1);
+                }
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+</script>
+
+  <!-- <script>
+    $.ajax({
+      url: "/histori/" + province + "/log_magnitudes",
+      type: "GET",
+      success: function (result) {
+        var data = {
+          labels: result.labels,
+          datasets: [{
+            label: "My Dataset",
+            data: result.values,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)"
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)"
+            ],
+            borderWidth: 1
+          }]
+        };
+
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: data,
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+      }
+    });
+
+  </script> -->
+</body>
+
+</html>

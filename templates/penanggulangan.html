@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sistem Informasi Gempa Bumi Indonesia - Penanggulangan Gempa Bumi</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/img/waves.png" rel="icon">
+  <link href="static/img/waves.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Nova - v1.3.0
+  * Template URL: https://bootstrapmade.com/nova-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="page-about">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="static/img/logo.png" alt=""> -->
+        <h1 class="d-flex align-items-center">Sistem Informasi Gempa Bumi Indonesia</h1>
+      </a>
+
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href=" {{ url_for('index') }} ">Home</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('penanggulangan') }} ">Penanggulangan Gempa Bumi</a></li>
+        </ul>
+        <ul>
+          <li><a href=" {{ url_for('about') }} ">About</a></li>
+        </ul>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('static/img/help.jpg');">
+      <div class="container position-relative d-flex flex-column align-items-center">
+
+        <h2>Penanggulangan Gempa Bumi</h2>
+        <ol>
+          <li><a href=" {{ url_for('index') }} ">Home</a></li>
+          <li>Penanggulangan Gempa Bumi</li>
+        </ol>
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4" data-aos="fade-up">
+          <div class="col-lg-4">
+            <img src="static/img/penanggulangan.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-8">
+            <div class="content ps-lg-5">
+              <h3 style="color: black">Persiapkan Diri dengan Ilmu Penanggulangan Gempa Bumi</h3>
+              <p style="color: black"> 
+                Penting bagi seluruh lapisan masyarakat menguasai langkah yang tepat menghadapi bencana, salah satunya gempa bumi yang sering terjadi di Indonesia, terutama bagi warga yang tinggal di daerah rawan gempa bumi. Melihat ke belakang riwayat terjadinya gempa bumi di Indonesia di beberapa tempat yang sampai berdampak besar berupa tsunami atau keretakan tanah dan kerusakan bangunan yang parah menjadi alasan pendukung untuk mempelajari ilmu antisipasi ini untuk mengurangi dampak besar tersebut, baik korban jiwa maupun material. Membekali diri dengan pengetahuan tersebut dilengkapi melakukan pemantauan peramalan terjadinya gempa di provinsi tertentu melalui laman ini. Ada 3 langkah antisipasi menurut BMKG, yaitu sebelum, saat, dan setelah terjadinya gempa bumi.  
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container" data-aos="fade-up">
+        <div style="text-align: center; padding-bottom: 30px; padding-top: 50px;">
+          <h3>3 Langkah Antisipasi Gempa Bumi</h3>
+        </div>
+        <div class="row gy-5">
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div>
+              <h4>Sebelum Terjadinya Gempa</h4>
+              <ol>
+                <li>Mengetahui pengertian gempa bumi dan memastikan struktur bangunan (rumah, sekolah, kantor, dan sebagainya) dapat menahan efek gempa lebih baik.</li>
+                <li>Perhatikan fasilitas darurat yang tersedia di gedung (pintu keluar dan tangga darurat) untuk keluar dari bangunan dan berlindung, serta mempelajari P3K, menyiapkan alat-alat darurat (kotak P3K, senter atau alat penerangan lain, radio, dan makanan minuman) di setiap tempat, dan penggunaan alat pemadam kebakaran. Mencatat nomor telepon penting yang dapat dihubungi saat gempa terjadi.</li>
+                <li>Perhatikan perabotan yang rawan jatuh terutama perabotan berat untuk menghindari tertindih saat terjadi guncangan dengan memaku atau mengikat atau mengelem. Perhatikan penyimpanan beserta pemakaian air, gas, dan listrik, matikan ketika tidak digunakan.</li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div>
+              <h4>Saat Terjadinya Gempa</h4>
+              <ol>
+                <li>Jika berada di dalam ruangan, lindungi kepala dan badan dengan berlindung di bawah meja atau tempat yang sejenis yang aman dari reruntuhan dan guncangan. Apabila masih memungkinkan keluar ruangan, maka lakukanlah.</li>
+                <li>Jika berada di area terbuka, hindari bangunan, pohon, atau tiang listrik yang berpotensi roboh. Perhatikan tanah apabila ada retakan. Apabila sedang mengendarai mobil, usahakan untuk keluar dan menjauh dari potensi runtuhan serta kebakaran.</li>
+                <li>Bagi masyarakat yang tinggal di pantai untuk menjauhi pantai menghindari bahaya tsunami dan bagi masyarakat yang tinggal di pegunungan untuk menghindari daerah rawan longsor.</li>
+              </ol>
+            </div>
+          </div><!-- End Service Item -->
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div>
+              <h4>Setelah Terjadinya Gempa</h4>
+              <ol>
+                <li>Jika berada di luar ruangan, segera keluar dengan tertib, usahakan jangan keluar melalui lift. Periksa keadaan diri dan sekitar apabila ada yang terluka. Lakukan P3K atau hubungi pertolongan jika terjadi luka parah.</li>
+                <li>Perhatikan lingkungan barangkali terjadi kebakaran, kebocoran gas, korsleting, serta periksa aliran dan pipa air. Periksa apabila ada hal yang membahayakan (mematikan listrik, tidak menyalakan api, dan sebagainya).</li>
+                <li>Jangan memasuki bangunan yang terkena gempa, rawan reruntuhan. Hindari berjalan di daerah sekitar gempa, ada kemungkinan terjadinya gempa susulan.</li>
+                <li>Mendengarkan informasi di media mengenai gempa susulan dan berhati-hati terhadap hoax.</li>
+                <li>Mengisi angket yang diberikan oleh instansi terkait untuk mengetahui seberapa besar kerusakan yang terjadi.</li>
+                <li>Tetap tenang dan berdoa meminta keselamatan dan keamanan kepada Tuhan YME.</li>
+              </ol>
+            </div>
+          </div><!-- End Service Item -->
+          </div>
+        </div>
+    </section><!-- End About Section -->
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+              <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
+                <span>Sistem Informasi Gempa Bumi</span>
+              </a>
+              <p>Wadah informasi gempa bumi Indonesia terdahulu sebagai wawasan masyarakat</p>
+            <div class="social-links d-flex  mt-3">
+              <a href="https://instagram.com/srndhn23_?igshid=YmMyMTA2M2Y=" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="https://www.linkedin.com/in/susi-nurindahsari-7303261b4" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-6 footer-links">
+            <h4>More Information</h4>
+            <ul>
+              <li><i class="bi bi-dash"></i> <a href="https://earthquake.usgs.gov/earthquakes/search/">Data Gempa Bumi USGS</a></li>
+              <li><i class="bi bi-dash"></i> <a href="https://data.bmkg.go.id/gempabumi/">Data Gempa Bumi BMKG</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contact Us</h4>
+            <p>
+              Jl. Mataram No.9, Pesurungan Lor<br>
+              Kec. Margadana, Kota Tegal<br>
+              Jawa Tengah 52147 <br>
+              <strong>Email:</strong> sarindahsn23@gmail.com<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>SIGEMBI</span></strong>. All Rights Reserved
+        </div>
+        <!--<div class="credits">-->
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nova-bootstrap-business-template/ -->
+          <!--Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/vendor/aos/aos.js"></script>
+  <script src="static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/js/main.js"></script>
+
+</body>
+
+</html>
