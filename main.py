@@ -21,7 +21,6 @@ app = Flask(__name__, static_folder='static')
 
 # Mysql Connection
 cnx = mysql.connector.connect(
-    url = 'mysql://root:NCodJAUN2nBxE7ItrgQm@containers-us-west-157.railway.app:7499/railway',
     database = 'railway',
     host = 'containers-us-west-157.railway.app',
     password = 'NCodJAUN2nBxE7ItrgQm',
