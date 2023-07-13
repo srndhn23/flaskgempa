@@ -20,8 +20,14 @@ app = Flask(__name__, static_folder='static')
 
 
 # Mysql Connection
-cnx = mysql.connector.connect(user='root', password='',
-                              host='localhost', database='gempa')
+cnx = mysql.connector.connect(
+    url = 'mysql://root:NCodJAUN2nBxE7ItrgQm@containers-us-west-157.railway.app:7499/railway',
+    database = 'railway',
+    host = 'containers-us-west-157.railway.app',
+    password = 'NCodJAUN2nBxE7ItrgQm',
+    port = '7499',
+    user = 'root'
+)
 
 @app.route("/", methods=['GET'])
 def index():
