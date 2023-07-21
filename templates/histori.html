@@ -102,16 +102,19 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <!-- The map image -->
-          <img id="map-image" src="{{ url_for('static', filename='maps/' + province + '.jpg') }}" alt="{{ province }} map" class="center">
+            <!-- The map image -->
+            <img id="map-image" src="{{ url_for('static', filename='maps/' + province + '.jpg') }}"
+                alt="{{ province }} map" class="center">
         </div>
         <div class="col-md-6">
-          <!-- The graphic -->
-          <div>
-            <canvas id="myChart"></canvas>
-          </div>
+            <!-- The graphic -->
+            <div>
+                <!-- Set the desired width and height for the histogram image -->
+                <img src="data:image/png;base64,{{ plot_data }}" alt="Histogram Magnitudo"
+                    width="500" height="400"> <!-- Adjust width and height as needed -->
+            </div>
         </div>
-      </div>
+    </div>
 
       <div class="col">
         <div class="container">
@@ -223,117 +226,6 @@
   <!-- Template Main JS File -->
   <script src="/static/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const ctx = document.getElementById('myChart');
-    var id = document.getElementById('date').value;
-    new Chart(ctx, {
-      type: 'scatter',
-      data: {
-        datasets: [{
-          label: 'Grafik Magnitudo vs Kedalaman',
-          data: [
-          {% for row in data %}
-          { x: {{ row[3] }}, y: {{ row[4] }} },
-          {% endfor %}
-          ],
-          borderColor: 'white',
-          backgroundColor: 'rgba(255, 255, 255, 0.6)'
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom',
-            scaleLabel: {
-              display: true,
-              labelString: 'Kedalaman (km)',
-              color: 'white'
-            },
-            ticks: {
-              color: 'white',
-              beginAtZero: true
-            }
-          },
-          y: {
-            scaleLabel: {
-              display: true,
-              labelString: 'Magnitudo',
-              color: 'white'
-            },
-            ticks: {
-              color: 'white',
-              beginAtZero: true
-            }
-          }
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                var label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                if (context.parsed.x !== null) {
-                  label += 'Kedalaman ' + context.parsed.x.toFixed(2) + ' km, ';
-                }
-                if (context.parsed.y !== null) {
-                  label += 'Magnitudo ' + context.parsed.y.toFixed(1);
-                }
-                return label;
-              }
-            }
-          }
-        }
-      }
-    });
-</script>
-
-  <!-- <script>
-    $.ajax({
-      url: "/histori/" + province + "/log_magnitudes",
-      type: "GET",
-      success: function (result) {
-        var data = {
-          labels: result.labels,
-          datasets: [{
-            label: "My Dataset",
-            data: result.values,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)"
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)"
-            ],
-            borderWidth: 1
-          }]
-        };
-
-        var ctx = document.getElementById("myChart").getContext("2d");
-        var myChart = new Chart(ctx, {
-          type: "bar",
-          data: data,
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
-          }
-        });
-      }
-    });
-
-  </script> -->
 </body>
 
 </html>

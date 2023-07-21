@@ -3,6 +3,7 @@ numpy
 pandas
 scikit-learn
 statsmodels
+matplotlib
 prophet
 mysql-connector
 mysql-connector-python

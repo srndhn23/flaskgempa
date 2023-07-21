@@ -10,6 +10,9 @@ import statsmodels.api as sm
 # from pandas import datetime
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 from prophet import Prophet
 from prophet.diagnostics import performance_metrics
 from prophet.diagnostics import cross_validation
@@ -87,10 +90,32 @@ def histori(province):
 
     data = [[row[0], row[1], row[2], row[3], row[4], row[5]] for row in results]
 
-    log_magnitudes = [math.log10(row[4]) for row in results]
+    # Mengambil data magnitudo dari hasil query
+    magnitudes = [row[4] for row in results]
+
+    # Calculate the number of bins for the histogram (Square Root Choice method)
+    num_data_points = len(magnitudes)
+    num_bins = max(1, math.ceil(math.sqrt(num_data_points)))
+
+    # Create histogram using matplotlib
+    plt.figure(figsize=(8, 6))
+    plt.hist(magnitudes, bins=num_bins, edgecolor='white', color='blue', alpha=0.6)
+    plt.xlabel('Magnitudo')
+    plt.ylabel('Frequency')
+    plt.title('Histogram Magnitudo')
+    plt.grid(True)
+
+    # Save the histogram to a BytesIO object
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    plt.close()
+
+    # Convert the histogram image to base64 encoding
+    plot_data = base64.b64encode(buffer.read()).decode()
 
     province_name = get_province_name(province)
-    context = {'data': data, 'province': province, 'log_magnitudes': log_magnitudes, 'province_name': province_name}
+    context = {'data': data, 'province': province, 'magnitudes': magnitudes, 'province_name': province_name, 'plot_data': plot_data}
     return render_template("histori.html", **context)
 
 @app.route("/predict", methods=['POST'])
