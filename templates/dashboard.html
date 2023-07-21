@@ -130,7 +130,8 @@
           <div class="col">
             <form action="/predict" method="post" class="form">
               <div class="form-group mb-4">
-                <label for="province">Nama Provinsi:</label>
+                <label for="province">Nama Provinsi:</label><br>
+                <small>Pilih nama provinsi</small>
                 <select id="province" name="province" class="form-control" required>
                   <option value="" disabled selected>Pilih Provinsi</option>
                   <option value='Aceh'> Aceh</option>
@@ -170,11 +171,13 @@
                 </select>
               </div>
               <div class="form-group mb-4">
-                <label for="start_date">Tanggal Mulai:</label>
+                <label for="start_date">Tanggal Mulai:</label><br>
+                <small>Masukkan tanggal mulai prediksi</small>
                 <input type="date" id="start_date" name="start_date" class="form-control" required>
               </div>
               <div class="form-group mb-4">
-                <label for="end_date">Tanggal Akhir:</label>
+                <label for="end_date">Tanggal Akhir:</label><br>
+                <small>Masukkan tanggal akhir prediksi</small>
                 <input type="date" id="end_date" name="end_date" class="form-control" required>
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
