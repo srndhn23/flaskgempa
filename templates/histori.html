@@ -119,7 +119,8 @@
       <div class="col">
         <div class="container">
           {% if data %}
-          <h5 style="text-align: center; color: #Fdffff;">Data Histori Gempa Bumi di Provinsi {{ province_name }}</h5>
+          <h5 style="text-align: center; color: #Fdffff; padding-top: 30px;">Data Histori Gempa Bumi di Provinsi {{
+            province_name }}</h5>
           <table class="table table-bordered" id="table-container">
             <thead>
               <tr>
@@ -154,9 +155,8 @@
       </div>
       <label class="maplabel"><a>Keterangan: informasi tanggal dan waktu yang terdapat pada tabel telah disesuaikan
           dengan waktu setempat</a></label>
-      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Ramalkan Magnitudo
-          Gempa</a>
-        untuk meramalkan gempa di waktu mendatang.</label>
+      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Prediksikan Magnitudo
+          Gempa</a> untuk memprediksikan magnitudo gempa.</label>
     </div>
   </section><!-- End Hero Section -->
 
