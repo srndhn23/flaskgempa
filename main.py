@@ -84,7 +84,7 @@ def get_province_name(province):
 @app.route("/histori/<province>/log_magnitudes", methods=['GET'])
 def histori(province):
     cur = cnx.cursor()
-    cur.execute("SELECT date, latitude, longitude, depth, mag, place FROM histori WHERE province = %s ORDER BY date DESC", (province,))
+    cur.execute("SELECT date, waktu, latitude, longitude, depth, mag, place FROM histori WHERE province = %s ORDER BY date DESC", (province,))
     results = cur.fetchall()
     cur.close()
 
