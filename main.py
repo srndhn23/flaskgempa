@@ -88,10 +88,10 @@ def histori(province):
     results = cur.fetchall()
     cur.close()
 
-    data = [[row[0], row[1], row[2], row[3], row[4], row[5]] for row in results]
+    data = [[row[0], row[1], row[2], row[3], row[4], row[5], row[6],] for row in results]
 
     # Mengambil data magnitudo dari hasil query
-    magnitudes = [row[4] for row in results]
+    magnitudes = [row[5] for row in results]
 
     # Calculate the number of bins for the histogram (Square Root Choice method)
     num_data_points = len(magnitudes)

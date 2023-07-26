@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Sistem Informasi Gempa Bumi Indonesia</title>
+  <title>Sistem Informasi Gempa Bumi Indonesia (SIGEMBI)</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -77,7 +77,7 @@
       <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="/static/img/logo.png" alt=""> -->
-        <h1 class="d-flex align-items-center">Sistem Informasi Gempa Bumi Indonesia</h1>
+        <h1 class="d-flex align-items-center">Sistem Informasi Gempa Bumi Indonesia (SIGEMBI)</h1>
       </a>
 
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -102,56 +102,60 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-            <!-- The map image -->
-            <img id="map-image" src="{{ url_for('static', filename='maps/' + province + '.jpg') }}"
-                alt="{{ province }} map" class="center">
+          <!-- The map image -->
+          <img id="map-image" src="{{ url_for('static', filename='maps/' + province + '.jpg') }}"
+            alt="{{ province }} map" class="center">
         </div>
         <div class="col-md-6">
-            <!-- The graphic -->
-            <div>
-                <!-- Set the desired width and height for the histogram image -->
-                <img src="data:image/png;base64,{{ plot_data }}" alt="Histogram Magnitudo"
-                    width="500" height="400"> <!-- Adjust width and height as needed -->
-            </div>
+          <!-- The graphic -->
+          <div>
+            <!-- Set the desired width and height for the histogram image -->
+            <img src="data:image/png;base64,{{ plot_data }}" alt="Histogram Magnitudo" width="500" height="400">
+            <!-- Adjust width and height as needed -->
+          </div>
         </div>
-    </div>
+      </div>
 
       <div class="col">
         <div class="container">
           {% if data %}
-            <h5 style="text-align: center; color: #Fdffff;">Data Histori Gempa Bumi di Provinsi {{ province_name }}</h5>
-            <table class="table table-bordered" id="table-container">
-              <thead>
-                <tr>
-                  <th class="text-center">Tanggal</th>
-                  <th class="text-center">Latitude</th>
-                  <th class="text-center">Longitude</th>
-                  <th class="text-center">Kedalaman (KM)</th>
-                  <th class="text-center">Magnitudo (Mw)</th>
-                  <th class="text-center">Lokasi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in data %}
-                  <tr>
-                    <td id="date">{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
-                    <td>{{ row[4] }}</td>
-                    <td>{{ row[5] }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <h5 style="text-align: center; color: #Fdffff;">Data Histori Gempa Bumi di Provinsi {{ province_name }}</h5>
+          <table class="table table-bordered" id="table-container">
+            <thead>
+              <tr>
+                <th class="text-center">Tanggal</th>
+                <th class="text-center">Waktu</th>
+                <th class="text-center">Latitude</th>
+                <th class="text-center">Longitude</th>
+                <th class="text-center">Kedalaman (KM)</th>
+                <th class="text-center">Magnitudo (Mw)</th>
+                <th class="text-center">Lokasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data %}
+              <tr>
+                <td id="date">{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
           {% else %}
-            <p class="datalabel" style="font-size: 18px;">Sorry, the data is unavailable.</p>
-            <img style="padding-left: 10%;" src="../static/Beach_Two Color.svg" alt="">
+          <p class="datalabel" style="font-size: 18px;">Sorry, the data is unavailable.</p>
+          <img style="padding-left: 10%;" src="../static/Beach_Two Color.svg" alt="">
           {% endif %}
         </div>
-      </div>    
-
-      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Ramalkan Magnitudo Gempa</a>
+      </div>
+      <label class="maplabel"><a>Keterangan: informasi tanggal dan waktu yang terdapat pada tabel telah disesuaikan
+          dengan waktu setempat</a></label>
+      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Ramalkan Magnitudo
+          Gempa</a>
         untuk meramalkan gempa di waktu mendatang.</label>
     </div>
   </section><!-- End Hero Section -->
@@ -165,15 +169,15 @@
           <div class="col-lg-5 col-md-12 footer-info">
             <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
               <a href=" {{ url_for('index') }} " class="logo d-flex align-items-center">
-                <span>Sistem Informasi Gempa Bumi</span>
+                <span>SIGEMBI</span>
               </a>
               <p>Wadah informasi gempa bumi Indonesia terdahulu sebagai wawasan masyarakat</p>
-            <div class="social-links d-flex  mt-3">
-              <a href="https://instagram.com/srndhn23_?igshid=YmMyMTA2M2Y=" class="instagram"><i
-                  class="bi bi-instagram"></i></a>
-              <a href="https://www.linkedin.com/in/susi-nurindahsari-7303261b4" class="linkedin"><i
-                  class="bi bi-linkedin"></i></a>
-            </div>
+              <div class="social-links d-flex  mt-3">
+                <a href="https://instagram.com/srndhn23_?igshid=YmMyMTA2M2Y=" class="instagram"><i
+                    class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/susi-nurindahsari-7303261b4" class="linkedin"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
           </div>
 
           <div class="col-lg-3 col-6 footer-links">
