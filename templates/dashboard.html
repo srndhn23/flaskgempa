@@ -185,32 +185,36 @@
           </div>
           <div class="col">
             <div class="container">
-              {% if forecast_data is defined and not forecast_data.empty %}
-                <h5 class="text-center mt-4">Hasil Prediksi di Provinsi {{ province }}</h5>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Tanggal</th>
-                      <th>Prediksi Magnitudo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for index, row in forecast_data.iterrows() %}
-                      <tr>
-                        <td>{{ row['ds'].date() }}</td>
-                        <td>{{ row['Forecast'] }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+              {% if message %}
+              <p class="alert alert-danger">{{ message }}</p>
+              {% elif forecast_data is defined and not forecast_data.empty %}
+              <h5 class="text-center mt-4">Hasil Prediksi di Provinsi {{ province }}</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Prediksi Magnitudo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for index, row in forecast_data.iterrows() %}
+                  <tr>
+                    <td>{{ row['ds'].date() }}</td>
+                    <td>{{ row['Forecast'] }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="col-md-6">
+                <button id="download-prediction" class="btn btn-success">Download Hasil Prediksi</button>
+              </div>
               {% else %}
-                <p class="mt-4" style="text-align: center; font-size: 20px;">Tidak ada data prediksi yang terekam</p>
-                <img style="padding-left: 10%;" src="../static/Time_Two Color.svg" alt="">
+              <p class="mt-4" style="text-align: center; font-size: 20px;">Tidak ada data prediksi yang terekam</p>
+              <img style="padding-left: 10%;" src="../static/Time_Two Color.svg" alt="">
               {% endif %}
             </div>
-          </div>                              
-        </div>       
-
+          </div>
+        </div>
     </section>
   </main><!-- End #main -->
 
@@ -336,6 +340,41 @@
         }
       });
 
+    });
+  </script>
+
+  <script>
+    document.getElementById("download-prediction").addEventListener("click", function () {
+      var table = document.querySelector(".table");  // Mendapatkan elemen tabel hasil prediksi
+      var csvContent = "Tanggal,Prediksi Magnitudo\n";  // Header
+
+      // Loop melalui baris tabel untuk menghasilkan konten CSV
+      var rows = table.querySelectorAll("tbody tr");
+      rows.forEach(function (row) {
+        var date = row.cells[0].textContent.trim();
+        var magnitude = row.cells[1].textContent.trim();
+        csvContent += date + "," + magnitude + "\n";
+      });
+
+      // Membuat blob dari konten CSV
+      var blob = new Blob([csvContent], { type: "text/csv" });
+
+      // Nama file sesuai dengan nama provinsi yang diprediksi
+      var filename = "hasil_prediksi_" + "{{ province|replace(' ', '_') }}" + ".csv";
+
+      // Membuat URL untuk mengunduh blob
+      var url = URL.createObjectURL(blob);
+
+      // Membuat link untuk mengunduh
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = filename;  // Menggunakan nama file yang telah dibuat
+      document.body.appendChild(link);
+      link.click();
+
+      // Membersihkan URL dan elemen link setelah pengunduhan
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
     });
   </script>
 

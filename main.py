@@ -84,20 +84,17 @@ def get_province_name(province):
 @app.route("/histori/<province>/log_magnitudes", methods=['GET'])
 def histori(province):
     cur = cnx.cursor()
-    cur.execute("SELECT date, waktu, latitude, longitude, depth, mag, place FROM histori WHERE province = %s ORDER BY date DESC", (province,))
+    cur.execute("SELECT DISTINCT date, waktu, latitude, longitude, depth, mag, place FROM histori WHERE province = %s ORDER BY date DESC", (province,))
     results = cur.fetchall()
     cur.close()
 
-    data = [[row[0], row[1], row[2], row[3], row[4], row[5], row[6],] for row in results]
+    data = [[row[0], row[1], row[2], row[3], row[4], row[5], row[6]] for row in results]
 
-    # Mengambil data magnitudo dari hasil query
     magnitudes = [row[5] for row in results]
 
-    # Calculate the number of bins for the histogram (Square Root Choice method)
     num_data_points = len(magnitudes)
     num_bins = max(1, math.ceil(math.sqrt(num_data_points)))
 
-    # Create histogram using matplotlib
     plt.figure(figsize=(8, 6))
     plt.hist(magnitudes, bins=num_bins, edgecolor='white', color='blue', alpha=0.6)
     plt.xlabel('Magnitudo')
@@ -105,24 +102,51 @@ def histori(province):
     plt.title('Histogram Magnitudo')
     plt.grid(True)
 
-    # Save the histogram to a BytesIO object
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
     plt.close()
 
-    # Convert the histogram image to base64 encoding
     plot_data = base64.b64encode(buffer.read()).decode()
 
+    # Get filter parameters from the URL query string
+    filter_start_date = request.args.get('filter_start_date')
+    filter_end_date = request.args.get('filter_end_date')
+    filter_magnitude = request.args.get('filter_magnitude')
+    filter_location = request.args.get('filter_location')
+
+    # Apply filters to the data
+    filtered_data = data
+    if filter_start_date and filter_end_date:
+        start_date = datetime.strptime(filter_start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(filter_end_date, '%Y-%m-%d').date()
+        filtered_data = [row for row in filtered_data if start_date <= row[0] <= end_date]
+    if filter_magnitude:
+        filtered_data = [row for row in filtered_data if float(row[5]) >= float(filter_magnitude)]
+    if filter_location:
+        filter_location_lower = filter_location.lower()
+        filtered_data = [row for row in filtered_data if filter_location_lower in row[6].lower()]
+
+    # Pagination
+    page = request.args.get('page', default=1, type=int)
+    items_per_page = 25
+    start_idx = (page - 1) * items_per_page
+    end_idx = start_idx + items_per_page
+    paginated_data = filtered_data[start_idx:end_idx]
+
+    total_pages = math.ceil(len(filtered_data) / items_per_page)
+
     province_name = get_province_name(province)
-    context = {'data': data, 'province': province, 'magnitudes': magnitudes, 'province_name': province_name, 'plot_data': plot_data}
+    context = {'data': paginated_data, 'province': province, 'province_name': province_name, 'plot_data': plot_data, 'total_pages': total_pages, 'page': page}
     return render_template("histori.html", **context)
 
 @app.route("/predict", methods=['POST'])
 def predict():
     province = request.form['province']
-    start_date = request.form['start_date']
-    end_date = request.form['end_date']
+    start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
+    end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d') + timedelta(days=1, seconds=-1)
+
+    today = datetime.today()
 
     # Load earthquake data
     gempa = pd.read_csv("gempa_indonesia.csv")
@@ -132,6 +156,9 @@ def predict():
     df.columns = ['ds', 'y', 'depth', 'provinces']
     df = pd.get_dummies(df, columns=['provinces'])
 
+    if start_date.date() <= today.date():
+        return render_template("dashboard.html", message="Maaf, Anda hanya dapat memprediksi magnitudo gempa di masa depan.")
+    
     # Train Prophet models for each province
     models = {}
     province_cols = [col for col in df.columns if col.startswith('provinces_')]
@@ -145,14 +172,33 @@ def predict():
         m.fit(province_df)
         models[province_name] = m
 
-    # Generate forecast for the specified province and date range
+    # Check if the requested date range exists in the dataset
+    date_range_exists = (df['ds'] >= start_date) & (df['ds'] <= end_date)
+    actual_data_in_range = df[date_range_exists]
+    
     forecast_data = None
-    if province in models:
-        model = models[province]
-        future = pd.date_range(start=start_date, end=end_date)
-        forecast = model.predict(pd.DataFrame({'ds': future}))[['ds', 'yhat']]
-        forecast = forecast.round({'yhat': 1})
-        forecast_data = forecast.rename(columns={'yhat': 'Forecast'})
+    
+    if actual_data_in_range.empty:
+        if province in models:
+            model = models[province]
+            future = pd.date_range(start=start_date, end=end_date)
+            forecast = model.predict(pd.DataFrame({'ds': future}))[['ds', 'yhat']]
+            forecast = forecast.round({'yhat': 1})
+            forecast_data = forecast.rename(columns={'yhat': 'Forecast'})
+            
+            # Simpan hasil prediksi ke database
+            if not forecast_data.empty:
+                for index, row in forecast_data.iterrows():
+                    tanggal_prediksi = row['ds']
+                    prediksi_magnitudo = row['Forecast']
+                    # Simpan hasil prediksi ke tabel hasil_prediksi
+                    query = "INSERT INTO hasil_prediksi (date, mag, province) VALUES (%s, %s, %s)"
+                    values = (tanggal_prediksi, prediksi_magnitudo, province)
+                    cur = cnx.cursor()
+                    cur.execute(query, values)
+                    cnx.commit()
+    else:
+        forecast_data = actual_data_in_range[['ds', 'y']].rename(columns={'y': 'Actual'})
 
     if forecast_data is not None and not forecast_data.empty:
         return render_template("dashboard.html", forecast_data=forecast_data, province=province)

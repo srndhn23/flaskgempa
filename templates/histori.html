@@ -115,7 +115,34 @@
           </div>
         </div>
       </div>
+      <form id="filter-form" method="GET">
+        <div class="form-row">
+          <div class="col">
+            <label for="filter-start-date" class="mr-2 text-white" style="padding-top: 30px;">Mulai Tanggal:</label>
+            <input type="date" id="filter-start-date" name="filter_start_date" class="form-control">
+          </div>
 
+          <div class="col">
+            <label for="filter-end-date" class="mr-2 text-white">Akhir Tanggal:</label>
+            <input type="date" id="filter-end-date" name="filter_end_date" class="form-control">
+          </div>
+
+          <div class="col">
+            <label for="filter-magnitude" class="mr-2 text-white">Filter Magnitudo:</label>
+            <input type="number" step="0.1" id="filter-magnitude" name="filter_magnitude" class="form-control">
+          </div>
+
+          <div class="col">
+            <label for="filter-location" class="mr-2 text-white">Filter Lokasi:</label>
+            <input type="text" id="filter-location" name="filter_location" class="form-control">
+          </div>
+
+          <div class="col-auto" style="padding-top: 10px;">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="button" class="btn btn-danger mr-2" id="clear-filter">Hapus Filter</button>
+          </div>
+        </div>
+      </form>
       <div class="col">
         <div class="container">
           {% if data %}
@@ -147,16 +174,31 @@
               {% endfor %}
             </tbody>
           </table>
+          <div class="pagination">
+            <ul class="pagination">
+              {% for p in range(1, total_pages + 1) %}
+              <li class="page-item {% if p == page %} active{% endif %}">
+                <a class="page-link"
+                  href="{{ url_for('histori', province=province, page=p, filter_date=request.args.get('filter_date'), filter_magnitude=request.args.get('filter_magnitude'), filter_location=request.args.get('filter_location')) }}">{{
+                  p }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="page-info">
+            <p style="color: #Fdffff;">Page {{ page }} of {{ total_pages }}</p>
+          </div>
+          <label class="maplabel"><a>Keterangan: informasi tanggal dan waktu yang terdapat pada tabel telah
+              disesuaikan dengan waktu setempat</a></label>
+          <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Prediksikan
+              Magnitudo Gempa</a>
+            untuk memprediksikan magnitudo gempa.</label>
           {% else %}
-          <p class="datalabel" style="font-size: 18px;">Sorry, the data is unavailable.</p>
+          <p class="datalabel" style="font-size: 18px;">Maaf, data yang Anda cari tidak ada.</p>
           <img style="padding-left: 10%;" src="../static/Beach_Two Color.svg" alt="">
           {% endif %}
         </div>
       </div>
-      <label class="maplabel"><a>Keterangan: informasi tanggal dan waktu yang terdapat pada tabel telah disesuaikan
-          dengan waktu setempat</a></label>
-      <label class="maplabel">Klik <a href=" {{ url_for('index') }}#main " class="btn-get-started">Prediksikan Magnitudo
-          Gempa</a> untuk memprediksikan magnitudo gempa.</label>
     </div>
   </section><!-- End Hero Section -->
 
@@ -230,6 +272,26 @@
   <!-- Template Main JS File -->
   <script src="/static/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    document.getElementById("clear-filter").addEventListener("click", function () {
+      document.getElementById("filter-start-date").value = "";
+      document.getElementById("filter-end-date").value = "";
+      document.getElementById("filter-magnitude").value = "";
+      document.getElementById("filter-location").value = "";
+      document.getElementById("filter-form").submit();
+    });
+
+    document.getElementById("filter-form").addEventListener("submit", function (event) {
+      const startDate = document.getElementById("filter-start-date").value;
+      const endDate = document.getElementById("filter-end-date").value;
+
+      if (startDate && endDate && startDate > endDate) {
+        alert("Tanggal mulai harus lebih awal daripada tanggal akhir.");
+        event.preventDefault();
+      }
+    });
+  </script>
 </body>
 
 </html>
