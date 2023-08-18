@@ -146,7 +146,7 @@ def predict():
     start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
     end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d') + timedelta(days=1, seconds=-1)
 
-    today = datetime.today()
+    # today = datetime.today()
 
     # Load earthquake data
     gempa = pd.read_csv("gempa_indonesia.csv")
@@ -156,9 +156,9 @@ def predict():
     df.columns = ['ds', 'y', 'depth', 'provinces']
     df = pd.get_dummies(df, columns=['provinces'])
 
-    if start_date.date() <= today.date():
-        return render_template("dashboard.html", message="Maaf, Anda hanya dapat memprediksi magnitudo gempa di masa depan.")
-    
+    # if start_date.date() <= today.date():
+    #     return render_template("dashboard.html", message="Maaf, Anda hanya dapat memprediksi magnitudo gempa di masa depan.")
+
     # Train Prophet models for each province
     models = {}
     province_cols = [col for col in df.columns if col.startswith('provinces_')]
@@ -172,35 +172,30 @@ def predict():
         m.fit(province_df)
         models[province_name] = m
 
-    # Check if the requested date range exists in the dataset
-    date_range_exists = (df['ds'] >= start_date) & (df['ds'] <= end_date)
-    actual_data_in_range = df[date_range_exists]
-    
     forecast_data = None
-    
-    if actual_data_in_range.empty:
-        if province in models:
-            model = models[province]
-            future = pd.date_range(start=start_date, end=end_date)
-            forecast = model.predict(pd.DataFrame({'ds': future}))[['ds', 'yhat']]
-            forecast = forecast.round({'yhat': 1})
-            forecast_data = forecast.rename(columns={'yhat': 'Forecast'})
-            
-            # Simpan hasil prediksi ke database
-            if not forecast_data.empty:
-                for index, row in forecast_data.iterrows():
-                    tanggal_prediksi = row['ds']
-                    prediksi_magnitudo = row['Forecast']
-                    # Simpan hasil prediksi ke tabel hasil_prediksi
-                    query = "INSERT INTO hasil_prediksi (date, mag, province) VALUES (%s, %s, %s)"
-                    values = (tanggal_prediksi, prediksi_magnitudo, province)
-                    cur = cnx.cursor()
-                    cur.execute(query, values)
-                    cnx.commit()
-    else:
-        forecast_data = actual_data_in_range[['ds', 'y']].rename(columns={'y': 'Actual'})
 
-    if forecast_data is not None and not forecast_data.empty:
+    if province in models:
+        model = models[province]
+        future = pd.date_range(start=start_date, end=end_date)
+        forecast = model.predict(pd.DataFrame({'ds': future}))[['ds', 'yhat']]
+        forecast = forecast.round({'yhat': 1})
+        forecast_data = forecast.rename(columns={'yhat': 'Forecast'})
+
+        # Simpan hasil prediksi ke database
+        if not forecast_data.empty:
+            for index, row in forecast_data.iterrows():
+                tanggal_prediksi = row['ds']
+                prediksi_magnitudo = row['Forecast']
+                # Simpan hasil prediksi ke tabel hasil_prediksi
+                query = "INSERT INTO hasil_prediksi (date, mag, province) VALUES (%s, %s, %s)"
+                values = (tanggal_prediksi, prediksi_magnitudo, province)
+                cur = cnx.cursor()
+                cur.execute(query, values)
+                cnx.commit()
+    else:
+        forecast_data = pd.DataFrame()
+
+    if not forecast_data.empty:
         return render_template("dashboard.html", forecast_data=forecast_data, province=province)
     else:
         return render_template("dashboard.html", province=province)
