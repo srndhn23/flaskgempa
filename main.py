@@ -146,7 +146,7 @@ def predict():
     start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
     end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d') + timedelta(days=1, seconds=-1)
 
-    # today = datetime.today()
+    today = datetime.today()
 
     # Load earthquake data
     gempa = pd.read_csv("gempa_indonesia.csv")
@@ -156,8 +156,8 @@ def predict():
     df.columns = ['ds', 'y', 'depth', 'provinces']
     df = pd.get_dummies(df, columns=['provinces'])
 
-    # if start_date.date() <= today.date():
-    #     return render_template("dashboard.html", message="Maaf, Anda hanya dapat memprediksi magnitudo gempa di masa depan.")
+    if start_date.date() <= today.date():
+        return render_template("dashboard.html", message="Maaf, Anda hanya dapat memprediksi magnitudo gempa di masa depan.")
 
     # Train Prophet models for each province
     models = {}
